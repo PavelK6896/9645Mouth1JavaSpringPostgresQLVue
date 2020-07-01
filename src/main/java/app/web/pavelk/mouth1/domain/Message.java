@@ -19,12 +19,11 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.AUTO)//генерировать ид автоматически
     @JsonView(Views.Id.class) // для фильтра
     private Long id;
+
     @JsonView(Views.IdName.class)
     private String text;
 
     @Column(updatable = false) // необновляемое
-
-
     //сериализация поумолчанею джексон меняем формат по патерну
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonView(Views.FullMessage.class)

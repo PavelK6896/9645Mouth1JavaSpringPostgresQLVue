@@ -50,7 +50,6 @@ public class MessageController {
     @PutMapping("{id}") //обновляем конкретную запись
     public Message update(@PathVariable("id") Long id, // вытягивает из урла текущий
                           @RequestBody Message message) {//RequestBody полученые даные в пост
-
         Message messageFromDb = messageRepo.getOne(id);
         // копирует из message в messageFromDb все поля кроме id
         BeanUtils.copyProperties(message, messageFromDb, "id");

@@ -19,6 +19,13 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 
+    //секюрити и что еще
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    // спринг секюрити как отдельный проект
+    implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.3.1.RELEASE'
+
+
+
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.postgresql:postgresql'
     //implementation 'org.projectlombok:lombok'
