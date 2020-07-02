@@ -4,6 +4,7 @@ package app.web.pavelk.mouth1.controller;
 import app.web.pavelk.mouth1.domain.User;
 import app.web.pavelk.mouth1.repo.MessageRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,9 @@ import java.util.HashMap;
 @RequestMapping("/")
 public class MainController {
     private final MessageRepo messageRepo;
+
+    @Value("${spring.profiles.active}")
+    private String profile;
 
     @Autowired
     public MainController(MessageRepo messageRepo) {
@@ -30,6 +34,8 @@ public class MainController {
         data.put("messages", messageRepo.findAll()); // пробрасываем в пользователя сообщения из базы
 
         model.addAttribute("frontendData", data);
+        // в зависимости от файла с настройками
+        model.addAttribute("isDevMode", "dev".equals(profile));
 
         return "index";
     }

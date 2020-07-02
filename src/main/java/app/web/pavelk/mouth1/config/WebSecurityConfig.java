@@ -25,9 +25,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/login**", "/static/js/**", "/error**").permitAll()
                 .anyRequest().authenticated()
+
+                .and().formLogin().loginPage("/login")
+                .defaultSuccessUrl("/").failureUrl("/login?error").permitAll()
+
                 .and()
                 .logout().logoutSuccessUrl("/").permitAll()// для выхода
                 .and()
+
 //                .authorizeRequests()
 //                .mvcMatchers("/").permitAll()
 //                .anyRequest().authenticated()
@@ -56,6 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 return newUser;
             });
             user.setLastVisit(LocalDateTime.now());
+
 
             return userDetailsRepo.save(user);
         };
