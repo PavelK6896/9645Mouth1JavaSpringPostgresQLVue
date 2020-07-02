@@ -20,10 +20,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+
+                .antMatcher("/**")
                 .authorizeRequests()
-                .mvcMatchers("/").permitAll()
+                .antMatchers("/", "/login**", "/static/js/**", "/error**").permitAll()
                 .anyRequest().authenticated()
                 .and()
+                .logout().logoutSuccessUrl("/").permitAll()// для выхода
+                .and()
+//                .authorizeRequests()
+//                .mvcMatchers("/").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
                 .csrf().disable();
     }
 
@@ -48,6 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 return newUser;
             });
             user.setLastVisit(LocalDateTime.now());
+
             return userDetailsRepo.save(user);
         };
     }

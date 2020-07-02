@@ -1,6 +1,5 @@
-
 function getIndex(list, id) { //определяет индекс в колекции
-    for (var i = 0; i < list.length; i++ ) {
+    for (var i = 0; i < list.length; i++) {
         if (list[i].id === id) {
             return i;
         }
@@ -14,26 +13,26 @@ var messageApi = Vue.resource('/message{/id}'); //для rest
 
 Vue.component('message-form', { //форма для добавления  и изменения
     props: ['messages', 'messageAttr'], //
-    data: function() { // вункция возвращает объект что бы переменые была уникальная внутри компанента
+    data: function () { // вункция возвращает объект что бы переменые была уникальная внутри компанента
         return {//стате в компаненте ву локальный
             text: '',
             id: ''
         }
     },
     watch: { //следит за messageAttr или обновляет стате
-        messageAttr: function(newVal, oldVal) {
+        messageAttr: function (newVal, oldVal) {
             this.text = newVal.text; //устанавливает новое значание
             this.id = newVal.id;
         }
     },
     template:
         '<div>' + //фома в ву для ресурсе
-            '<input type="text" placeholder="Write something" v-model="text" />' +//v-model связывает объект с локальным стетом
-            '<input type="button" value="Save" @click="save" />' + //v-on:click или @click вызывает метод
+        '<input type="text" placeholder="Write something" v-model="text" />' +//v-model связывает объект с локальным стетом
+        '<input type="button" value="Save" @click="save" />' + //v-on:click или @click вызывает метод
         '</div>',
     methods: {
-        save: function() { //метод для кнопки как сабмит
-            const message = { text: this.text };//сообщение
+        save: function () { //метод для кнопки как сабмит
+            const message = {text: this.text};//сообщение
 
             if (this.id) { //если обнавление
                 messageApi.update({id: this.id}, message).then(result =>
@@ -61,15 +60,15 @@ Vue.component('message-row', {//для строчьки
     template: '<div>' +
         '<i>({{ message.id }})</i> {{ message.text }}' +
         '<span style="position: absolute; right: 0">' +
-            '<input type="button" value="Edit" @click="edit" />' + //редактирование
-            '<input type="button" value="X" @click="del" />' +//удаление
+        '<input type="button" value="Edit" @click="edit" />' + //редактирование
+        '<input type="button" value="X" @click="del" />' +//удаление
         '</span>' +
         '</div>',
     methods: {
-        edit: function() {
+        edit: function () {
             this.editMethod(this.message); // используем полученые месадж
         },
-        del: function() { //this потомучто поле
+        del: function () { //this потомучто поле
             messageApi.remove({id: this.message.id}).then(result => { //проверяем существования
                 if (result.ok) { //если есть тоесть удален на сервере
                     this.messages.splice(this.messages.indexOf(this.message), 1) //удаляем на фронте
@@ -80,36 +79,48 @@ Vue.component('message-row', {//для строчьки
 });
 
 Vue.component('messages-list', {//для списка
-  props: ['messages'],
-  data: function() {
-    return {
-        message: null
-    }
-  },
-  template:
-    '<div style="position: relative; width: 300px;">' +
+    props: ['messages'],
+    data: function () {
+        return {
+            message: null
+        }
+    },
+    template:
+        '<div style="position: relative; width: 300px;">' +
         '<message-form :messages="messages" :messageAttr="message" />' + //форма добавления
         '<message-row v-for="message in messages" :key="message.id" :message="message" ' + //цикол фор
-            ':editMethod="editMethod" :messages="messages" />' +
-    '</div>',
-  created: function() {
-    messageApi.get().then(result =>
-        result.json().then(data =>
-            data.forEach(message => this.messages.push(message))
-        )
-    )
-  },
-  methods: {
-    editMethod: function(message) { //пробрасывет в форму редактирования
-        this.message = message;
+        ':editMethod="editMethod" :messages="messages" />' +
+        '</div>',
+    methods: {
+        editMethod: function (message) { //пробрасывет в форму редактирования
+            this.message = message;
+        }
     }
-  }
 });
 
 var app = new Vue({
-  el: '#app',
-  template: '<messages-list :messages="messages" />',
-  data: {
-    messages: []
-  }
+    el: '#app',
+    template: '<div>' +
+        // если профайл незаполнен то надо авторизоваться
+        '<div v-if="!profile">Необходимо авторизоваться через <a href="/login">Google</a></div>' +
+        '<div v-else>' +
+        //имя пользователя и логаут
+        '<div>{{profile.name}}&nbsp;<a href="/logout">Выйти</a></div>' +
+        '<messages-list :messages="messages" />' +
+        '</div>' +
+        '</div>',
+
+    data: {
+        // messages: [],
+        messages: frontendData.messages, // берем из переменой с бекенда из глобального контекста
+        profile: frontendData.profile
+    },
+    created: function () {
+        // // сходить получить сообщения по ресту
+        // messageApi.get().then(result =>
+        //     result.json().then(data =>
+        //         data.forEach(message => this.messages.push(message))
+        //     )
+        // )
+    },
 });

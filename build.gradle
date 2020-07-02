@@ -18,6 +18,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    //для сохранения сесии
+    implementation 'org.springframework.session:spring-session-jdbc'
+
 
     //секюрити и что еще
     implementation 'org.springframework.boot:spring-boot-starter-security'

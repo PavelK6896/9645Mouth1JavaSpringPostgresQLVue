@@ -1,19 +1,29 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <!--    ву девелоп-->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <!--    скрывает http запросы  -->
     <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
     <title>Document</title>
+
+    <!--    говарим тамлиф что сдесь генерировал жава скрипт по месту -->
+    <script th:inline="javascript">
+//с бекенда принимаем переменную серелизуеться в дсон и подставляеться на странице
+        var frontendData = [[${frontendData}]];
+    </script>
+
 </head>
 <body>
 <h1>hi !!</h1>
+<a th:if="${frontendData == null}" th:href="@{'/login/'}">login</a>
 <div id="app"></div>
+<!--статичьная папка просто видна всегда -->
 <script src="/js/main.js"></script>
 </body>
 </html>
