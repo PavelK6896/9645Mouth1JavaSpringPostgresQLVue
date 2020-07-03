@@ -3,11 +3,21 @@ import VueResource from 'vue-resource'
 import App from 'pages/App.vue'
 import { connect } from './util/ws'
 
-connect()
+
+import vuetify from 'plugins/vuetify'
+
+
+////
+if (frontendData.profile){ // если авторизован
+    connect()
+}
 
 Vue.use(VueResource) // добавления ву ресурса для рест апиа
 
+
 new Vue({
-    el: '#app', // в элемент app поместить компанет App
+    vuetify,
+    // el: '#app',
     render: a => a(App)
-})
+}).$mount('#app')
+

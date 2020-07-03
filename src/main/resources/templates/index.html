@@ -2,15 +2,24 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+
+    <!--    для иконок-->
+    <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' rel="stylesheet">
+
+    <!--    для меньштх икранов меньший маштаб-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <title>Document</title>
 
     <!--    говарим тамлиф что сдесь генерировал жава скрипт по месту -->
     <script th:inline="javascript">
-//с бекенда принимаем переменную серелизуеться в дсон и подставляеться на странице
+        //с бекенда принимаем переменную серелизуеться в дсон и подставляеться на странице
         var frontendData = [[${frontendData}]];
     </script>
 

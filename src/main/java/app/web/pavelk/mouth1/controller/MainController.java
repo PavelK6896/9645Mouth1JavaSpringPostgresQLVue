@@ -30,8 +30,11 @@ public class MainController {
     public String main(Model model, @AuthenticationPrincipal User user) {
         HashMap<Object, Object> data = new HashMap<>();
 
-        data.put("profile", user); // получаем авторизованого пользователя
-        data.put("messages", messageRepo.findAll()); // пробрасываем в пользователя сообщения из базы
+        if (user != null){ // проверка на авторизацию типо
+            data.put("profile", user); // получаем авторизованого пользователя
+            data.put("messages", messageRepo.findAll()); // пробрасываем в пользователя сообщения из базы
+        }
+
 
         model.addAttribute("frontendData", data);
         // в зависимости от файла с настройками

@@ -1,15 +1,15 @@
 import SockJS from 'sockjs-client' // обходит ограничения безопасности
 import { Stomp } from '@stomp/stompjs'
 
-
 let stompClient = null
 const handlers = [] // для приема
 
 export function connect() {
     const socket = new SockJS('/gs-guide-websocket')
     stompClient = Stomp.over(socket)
+    stompClient.debug = () => {} // типо отключает логирование
     stompClient.connect({}, frame => {
-        console.log('Connected: ' + frame)
+        // console.log('Connected: ' + frame)
         stompClient.subscribe('/topic/activity', message => {
             handlers.forEach(handler => handler(JSON.parse(message.body))) // собираем ответ от сервера
         })
