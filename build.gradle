@@ -24,6 +24,10 @@ dependencies {
     implementation 'org.springframework.session:spring-session-jdbc'
 
 
+    // для асинхроного общения
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+
     //секюрити и что еще
     implementation 'org.springframework.boot:spring-boot-starter-security'
     // спринг секюрити как отдельный проект

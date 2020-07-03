@@ -6,6 +6,8 @@ import app.web.pavelk.mouth1.repo.MessageRepo;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
@@ -60,6 +62,13 @@ public class MessageController {
     @DeleteMapping("{id}")
     public void delete(@PathVariable Long id) {
         messageRepo.delete(messageRepo.getOne(id));//удаляем запись из базы
+    }
+
+
+    @MessageMapping("/changeMessage") // для веб сокета
+    @SendTo("/topic/activity")// месачь брокер (возможно ребит мку, актив мку)
+    public Message message(Message message) {
+        return messageRepo.save(message); // презапишет и положит на очередь
     }
 
 }

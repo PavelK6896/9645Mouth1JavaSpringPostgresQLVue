@@ -11,7 +11,9 @@ module.exports = {
     port: 8000, // порт работы
     allowedHosts: [
       'localhost:8080' // порт приема запросов
-    ]
+    ],
+    stats: 'errors-only', // видеть логи только по статусу
+    clientLogLevel: 'error', //
   },
   module: {
     rules: [
