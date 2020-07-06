@@ -23,7 +23,7 @@
             </v-container>
 
             <v-container v-if="profile">
-                <messages-list :messages="messages"/>
+                <messages-list />
             </v-container>
         </v-main>
 
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+    import { mapState, mapMutations } from 'vuex' // состояние гетер мутация действие
     import MessagesList from 'components/messages/MessageList.vue'
     import {addHandler} from 'util/ws'
 
@@ -40,30 +41,31 @@
         components: { // регистрация компанента
             MessagesList
         },
-        data() { // функция чтобы на каждый экземпляр был свои даные
-            return {
-                messages: frontendData.messages,
-                profile: frontendData.profile
-            }
-        },
+        computed: mapState(['profile']), // получаем из стора
+        methods: mapMutations(['addMessageMutation', 'updateMessageMutation', 'removeMessageMutation']), // обычьные мутации
+        // data() { // функция чтобы на каждый экземпляр был свои даные
+        //     return {
+        //         messages: frontendData.messages,
+        //         profile: frontendData.profile
+        //     }
+        // },
         created() { // хук после инициализаци обьектов
             addHandler(data =>
 
                 {
                     if (data.objectType === 'MESSAGE') {
-                        const index = this.messages.findIndex(item => item.id === data.body.id)
+                        // const index = this.messages.findIndex(item => item.id === data.body.id)
 
                         switch (data.eventType) {
                             case 'CREATE':
+                                this.addMessageMutation(data.body)
+
+                                break
                             case 'UPDATE':
-                                if (index > -1) {
-                                    this.messages.splice(index, 1, data.body)
-                                } else {
-                                    this.messages.push(data.body)
-                                }
+                                this.updateMessageMutation(data.body)
                                 break
                             case 'REMOVE':
-                                this.messages.splice(index, 1)
+                                this.removeMessageMutation(data.body)
                                 break
                             default:
                                 console.error(`Looks like the event type if unknown "${data.eventType}"`)

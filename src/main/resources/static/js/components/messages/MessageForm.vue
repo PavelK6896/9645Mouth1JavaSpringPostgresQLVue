@@ -12,7 +12,8 @@
 </template>
 
 <script>
-    import messagesApi from 'api/messages'
+    // import messagesApi from 'api/messages'
+    import { mapActions } from 'vuex' // все акшены из стора
 
     // function getIndex(list, id) {
     //     for (var i = 0; i < list.length; i++ ) {
@@ -25,7 +26,7 @@
     // }
 
     export default {
-        props: ['messages', 'messageAttr'],
+        props: [ 'messageAttr'],
         data() {
             return {
                 text: '',
@@ -39,6 +40,8 @@
             }
         },
         methods: {
+
+            ...mapActions(['addMessageAction', 'updateMessageAction']), // добовляем в методы компанента
             save() {
              //   sendMessage({id: this.id, text: this.text}) // выполняем ws функцию
 
@@ -48,26 +51,10 @@
                 }
 
                 if (this.id) {
-                    messagesApi.update(message).then(result =>
-                        result.json().then(data => {
-                            const index = this.messages.findIndex(item => item.id === data.id)
-                            this.messages.splice(index, 1, data)
-                        })
-                    )
+                    this.updateMessageAction(message)
                 } else {
-                    messagesApi.add(message).then(result =>
-                        result.json().then(data => {
-                            const index = this.messages.findIndex(item => item.id === data.id)
-
-                            if (index > -1) {
-                                this.messages.splice(index, 1, data)
-                            } else {
-                                this.messages.push(data)
-                            }
-                        })
-                    )
+                    this.addMessageAction(message)
                 }
-
 
 
                 this.text = ''

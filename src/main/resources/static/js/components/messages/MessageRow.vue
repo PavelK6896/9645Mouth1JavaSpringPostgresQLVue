@@ -17,14 +17,17 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex' // все акшены из стора
+
     export default {
-        props: ['message', 'editMessage', 'deleteMessage', 'messages'],
+        props: ['message', 'editMessage'],
         methods: {
+            ...mapActions(['removeMessageAction']), // добовляем методы
             edit() {
                 this.editMessage(this.message)
             },
             del() {
-                this.deleteMessage(this.message)
+                this.removeMessageAction(this.message)
             }
         }
     }
