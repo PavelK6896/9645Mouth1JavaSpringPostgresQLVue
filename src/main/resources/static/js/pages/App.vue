@@ -3,10 +3,13 @@
 
         <v-app-bar app>
             <v-toolbar-title>Mouth</v-toolbar-title>
+            <v-btn v-if="profile" text :disabled="$route.path === '/'" @click="showMessages">
+                Messages
+            </v-btn>
 
             <v-spacer></v-spacer>
 
-            <span v-if="profile">{{profile.name}}</span>
+            <v-btn text v-if="profile" :disabled="$route.path === '/profile'" @click="showProfile">{{profile.name}}</v-btn>
 
 
             <v-btn v-if="profile" icon href="/logout">
@@ -16,33 +19,53 @@
         </v-app-bar>
 
         <v-main>
+            <router-view></router-view>
+<!--            <v-container v-if="!profile">-->
+<!--                Необходимо авторизоваться через-->
+<!--                <a href="/login">Google</a>-->
+<!--            </v-container>-->
 
-            <v-container v-if="!profile">
-                Необходимо авторизоваться через
-                <a href="/login">Google</a>
-            </v-container>
-
-            <v-container v-if="profile">
-                <messages-list />
-            </v-container>
+<!--            <v-container v-if="profile">-->
+<!--                <messages-list />-->
+<!--            </v-container>-->
         </v-main>
+
 
     </v-app>
 </template>
 
 <script>
     import { mapState, mapMutations } from 'vuex' // состояние гетер мутация действие
-    import MessagesList from 'components/messages/MessageList.vue'
+    // import MessagesList from 'components/messages/MessageList.vue'
     import {addHandler} from 'util/ws'
 
 
 
     export default {
-        components: { // регистрация компанента
-            MessagesList
-        },
+        // components: { // регистрация компанента
+        //     MessagesList
+        // },
         computed: mapState(['profile']), // получаем из стора
-        methods: mapMutations(['addMessageMutation', 'updateMessageMutation', 'removeMessageMutation']), // обычьные мутации
+        methods: {
+            ...mapMutations(['addMessageMutation', 'updateMessageMutation', 'removeMessageMutation']),
+            showMessages(){
+                this.$router.push('/')
+            },
+            showProfile(){
+                this.$router.push('/profile')
+            }
+
+
+
+
+
+        },   // обычьные мутации
+
+
+
+
+
+
         // data() { // функция чтобы на каждый экземпляр был свои даные
         //     return {
         //         messages: frontendData.messages,
@@ -85,7 +108,13 @@
             // }
 
             )
+        },
+        beforeMount() { // хук после копиляции html
+            if (!this.profile) { // перенапровление если не авторизован // чтоб не видеть ошибки
+                this.$router.replace('/auth') //replace запись не создает
+            }
         }
+
     }
 </script>
 
