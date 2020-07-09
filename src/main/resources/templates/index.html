@@ -21,6 +21,7 @@
     <script th:inline="javascript">
         //с бекенда принимаем переменную серелизуеться в дсон и подставляеться на странице
         var frontendData = [[${frontendData}]];
+        var messages = [# th:utext="${messages}" /]; // utext - текст не экранировать
     </script>
 
 </head>
