@@ -1,6 +1,8 @@
 package app.web.pavelk.mouth1.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -12,6 +14,10 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(of = { "id" })// хаш код сщитаеться от поля ид
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class Comment {
     @Id
     @GeneratedValue
@@ -23,11 +29,12 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "message_id") // название к кому относиться
+    @JsonView(Views.FullComment.class)
     private Message message;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false, updatable = false) // неможет быть пустым
-    @JsonView(Views.FullMessage.class)
+    @JsonView(Views.IdName.class)
     private User author;
 
 }

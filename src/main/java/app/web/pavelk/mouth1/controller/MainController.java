@@ -45,6 +45,8 @@ public class MainController {
             data.put("profile", user); // получаем авторизованого пользователя
             String messages = writer.writeValueAsString(messageRepo.findAll());
             model.addAttribute("messages", messages);    // пробрасываем в пользователя сообщения из базы
+        }else{
+            model.addAttribute("messages", "[]");
         }
 
 

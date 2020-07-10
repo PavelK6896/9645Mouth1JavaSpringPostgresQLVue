@@ -23,7 +23,7 @@ public class CommentController {
     }
 
     @PostMapping
-    @JsonView(Views.FullMessage.class) // только те что помечены
+    @JsonView(Views.FullComment.class) // только те что помечены
     public Comment create(
             @RequestBody Comment comment,
             @AuthenticationPrincipal User user
