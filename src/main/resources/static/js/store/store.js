@@ -8,7 +8,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: { // начальный стор
         messages,
-        profile: frontendData.profile
+        ...frontendData
     },
     getters: { // прослушка
         sortedMessages: state => (state.messages || []).sort((a, b) => -(a.id - b.id))
@@ -71,6 +71,26 @@ export default new Vuex.Store({
                 }
             }
         },
+        addMessagePageMutation(state, messages) {
+            const targetMessages = state.messages
+                .concat(messages)
+                .reduce((res, val) => { // убирает дубликат
+                    res[val.id] = val
+                    return res
+                }, {})
+
+            state.messages = Object.values(targetMessages) // получаем значение
+        },
+        updateTotalPagesMutation(state, totalPages) {
+            state.totalPages = totalPages
+        },
+        updateCurrentPageMutation(state, currentPage) {
+            state.currentPage = currentPage
+        }
+
+
+
+
     },
     actions: {
         async addMessageAction({commit, state}, message) {
@@ -100,6 +120,14 @@ export default new Vuex.Store({
             const response = await commentApi.add(comment) // отпровляем на сервер по апи
             const data = await response.json()
             commit('addCommentMutation', data)
+        },
+        async loadPageAction({commit, state}) {
+            const response = await messagesApi.page(state.currentPage + 1)
+            const data = await response.json()
+
+            commit('addMessagePageMutation', data.messages)
+            commit('updateTotalPagesMutation', data.totalPages)
+            commit('updateCurrentPageMutation', Math.min(data.currentPage, data.totalPages - 1)) // запрашиваем минимум
         }
 
     }
