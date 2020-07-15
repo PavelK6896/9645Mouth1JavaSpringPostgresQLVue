@@ -14,7 +14,7 @@
 
 <script>
     // import messagesApi from 'api/messages'
-    import { mapActions } from 'vuex' // все акшены из стора
+    import {mapActions} from 'vuex' // все акшены из стора
 
     // function getIndex(list, id) {
     //     for (var i = 0; i < list.length; i++ ) {
@@ -27,7 +27,7 @@
     // }
 
     export default {
-        props: [ 'messageAttr'],
+        props: ['messageAttr'],
         data() {
             return {
                 text: '',
@@ -44,7 +44,7 @@
 
             ...mapActions(['addMessageAction', 'updateMessageAction']), // добовляем в методы компанента
             save() {
-             //   sendMessage({id: this.id, text: this.text}) // выполняем ws функцию
+                //   sendMessage({id: this.id, text: this.text}) // выполняем ws функцию
 
                 const message = {
                     id: this.id,

@@ -9,7 +9,7 @@
 
             <v-spacer></v-spacer>
 
-            <v-btn text v-if="profile" :disabled="$route.path === '/profile'" @click="showProfile">{{profile.name}}</v-btn>
+            <v-btn text v-if="profile" :disabled="$route.path === '/user'" @click="showProfile">{{profile.name}}</v-btn>
 
 
             <v-btn v-if="profile" icon href="/logout">
@@ -20,14 +20,14 @@
 
         <v-main>
             <router-view></router-view>
-<!--            <v-container v-if="!profile">-->
-<!--                Необходимо авторизоваться через-->
-<!--                <a href="/login">Google</a>-->
-<!--            </v-container>-->
+            <!--            <v-container v-if="!profile">-->
+            <!--                Необходимо авторизоваться через-->
+            <!--                <a href="/login">Google</a>-->
+            <!--            </v-container>-->
 
-<!--            <v-container v-if="profile">-->
-<!--                <messages-list />-->
-<!--            </v-container>-->
+            <!--            <v-container v-if="profile">-->
+            <!--                <messages-list />-->
+            <!--            </v-container>-->
         </v-main>
 
 
@@ -35,10 +35,9 @@
 </template>
 
 <script>
-    import { mapState, mapMutations } from 'vuex' // состояние гетер мутация действие
+    import {mapMutations, mapState} from 'vuex' // состояние гетер мутация действие
     // import MessagesList from 'components/messages/MessageList.vue'
     import {addHandler} from 'util/ws'
-
 
 
     export default {
@@ -54,22 +53,15 @@
                 'addCommentMutation'
 
             ]),
-            showMessages(){
+            showMessages() {
                 this.$router.push('/')
             },
-            showProfile(){
-                this.$router.push('/profile')
+            showProfile() {
+                this.$router.push('/user')
             }
 
 
-
-
-
         },   // обычьные мутации
-
-
-
-
 
 
         // data() { // функция чтобы на каждый экземпляр был свои даные
@@ -79,9 +71,7 @@
         //     }
         // },
         created() { // хук после инициализаци обьектов
-            addHandler(data =>
-
-                {
+            addHandler(data => {
                     if (data.objectType === 'MESSAGE') {
                         // const index = this.messages.findIndex(item => item.id === data.body.id)
 
@@ -113,14 +103,14 @@
                     }
                 }
 
-            // {
-            //     let index = getIndex(this.messages, data.id) // ищем сообщение
-            //     if (index > -1) {
-            //         this.messages.splice(index, 1, data) // заменяем старое сообщение
-            //     } else { // когда поевляеться новое сообщение
-            //         this.messages.push(data)
-            //     }
-            // }
+                // {
+                //     let index = getIndex(this.messages, data.id) // ищем сообщение
+                //     if (index > -1) {
+                //         this.messages.splice(index, 1, data) // заменяем старое сообщение
+                //     } else { // когда поевляеться новое сообщение
+                //         this.messages.push(data)
+                //     }
+                // }
 
             )
         },

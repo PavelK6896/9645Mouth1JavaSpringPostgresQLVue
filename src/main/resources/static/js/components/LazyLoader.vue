@@ -3,7 +3,7 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex' // 1 импортируем
+    import {mapActions} from 'vuex' // 1 импортируем
 
     export default {
         name: 'LazyLoader',

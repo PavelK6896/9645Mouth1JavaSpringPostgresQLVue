@@ -49,17 +49,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             //  создаем нового пользователя
             User user = userDetailsRepo.findById(id) // ищем по ид
                     .orElseGet(() -> { // если не нашли то создали нового
-                User newUser = new User();
+                        User newUser = new User();
 
-                newUser.setId(id);
-                newUser.setName((String) map.get("name"));
-                newUser.setEmail((String) map.get("email"));
-                newUser.setGender((String) map.get("gender"));
-                newUser.setLocale((String) map.get("locale"));
-                newUser.setUserpic((String) map.get("picture"));
+                        newUser.setId(id);
+                        newUser.setName((String) map.get("name"));
+                        newUser.setEmail((String) map.get("email"));
+                        newUser.setGender((String) map.get("gender"));
+                        newUser.setLocale((String) map.get("locale"));
+                        newUser.setUserpic((String) map.get("picture"));
 
-                return newUser;
-            });
+                        return newUser;
+                    });
             user.setLastVisit(LocalDateTime.now());
 
 

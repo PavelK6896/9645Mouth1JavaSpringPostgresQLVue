@@ -37,10 +37,10 @@ public class Message {
     @JsonView(Views.FullMessage.class) // только для полного запроса
     private User author;
 
-    @OneToMany(mappedBy = "message", orphanRemoval = true) // пернадлежит месажу orphanRemoval - если месадж удалить коменты тоже удаляться
+    @OneToMany(mappedBy = "message", orphanRemoval = true)
+    // пернадлежит месажу orphanRemoval - если месадж удалить коменты тоже удаляться
     @JsonView(Views.FullMessage.class)
     private List<Comment> comments;
-
 
 
     @JsonView(Views.FullMessage.class)

@@ -3,8 +3,6 @@ package app.web.pavelk.mouth1.dto;
 import app.web.pavelk.mouth1.domain.Views;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.annotation.JsonView;
-
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data

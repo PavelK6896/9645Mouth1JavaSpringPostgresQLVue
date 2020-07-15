@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Table
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(of = { "id" })// хаш код сщитаеться от поля ид
+@EqualsAndHashCode(of = {"id"})// хаш код сщитаеться от поля ид
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"

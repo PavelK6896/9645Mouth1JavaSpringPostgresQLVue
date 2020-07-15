@@ -1,6 +1,5 @@
 package app.web.pavelk.mouth1.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data

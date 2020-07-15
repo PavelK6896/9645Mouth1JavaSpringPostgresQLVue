@@ -28,7 +28,7 @@
 
     export default {
         name: 'Media',
-        components: { YouTube },
+        components: {YouTube},
         props: ['message'],
         data() {
             return {

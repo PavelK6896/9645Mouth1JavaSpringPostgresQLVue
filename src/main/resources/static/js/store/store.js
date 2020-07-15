@@ -8,6 +8,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: { // начальный стор
         messages,
+        profile,
         ...frontendData
     },
     getters: { // прослушка
@@ -55,7 +56,7 @@ export default new Vuex.Store({
                     ...state.messages.slice(updateIndex + 1)
                 ]
 
-            }else{
+            } else {
                 if (!message.comments.find(it => it.id === comment.id)) {
                     state.messages = [
                         ...state.messages.slice(0, updateIndex),
@@ -87,8 +88,6 @@ export default new Vuex.Store({
         updateCurrentPageMutation(state, currentPage) {
             state.currentPage = currentPage
         }
-
-
 
 
     },

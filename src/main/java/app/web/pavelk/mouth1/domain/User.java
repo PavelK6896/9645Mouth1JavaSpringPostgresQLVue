@@ -1,18 +1,17 @@
 package app.web.pavelk.mouth1.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonView;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.*;
+import lombok.EqualsAndHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "usr")
-@Data
+@EqualsAndHashCode(of = {"id"}) // уникальность
 public class User implements Serializable {
     @Id
     @JsonView(Views.IdName.class)
@@ -22,10 +21,48 @@ public class User implements Serializable {
     @JsonView(Views.IdName.class)
     private String userpic;
     private String email;
+    @JsonView(Views.FullProfile.class)
     private String gender;
+    @JsonView(Views.FullProfile.class)
     private String locale;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonView(Views.FullProfile.class)
     private LocalDateTime lastVisit;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_subscriptions",
+            joinColumns = @JoinColumn(name = "subscriber_id"),
+            inverseJoinColumns = @JoinColumn(name = "channel_id")
+    )
+    @JsonView(Views.FullProfile.class) // фильтрует выдачю поля
+    // в поле Set<User> subscriptions - будут только идентефикаторы
+    @JsonIdentityReference
+    // используется для настройки ссылок на объекты, которые будут сериализованы как идентификаторы объектов вместо полных объектов POJO
+    @JsonIdentityInfo( // позволяет сериализовать POJO по идентификатору, когда он встречается во второй раз во время сериализации.
+            property = "id",
+            generator = ObjectIdGenerators.PropertyGenerator.class
+    )
+    private Set<User> subscriptions = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_subscriptions",
+            joinColumns = @JoinColumn(name = "channel_id"),
+            inverseJoinColumns = @JoinColumn(name = "subscriber_id")
+    )
+    @JsonView(Views.FullProfile.class)
+    // в поле Set<User> subscriptions - будут только идентефикаторы
+    @JsonIdentityReference
+    // используется для настройки ссылок на объекты, которые будут сериализованы как идентификаторы объектов вместо полных объектов POJO
+    @JsonIdentityInfo( // позволяет сериализовать POJO по идентификатору, когда он встречается во второй раз во время сериализации.
+            property = "id",
+            generator = ObjectIdGenerators.PropertyGenerator.class
+    )
+    private Set<User> subscribers = new HashSet<>();
+
+    public User() {
+    }
 
     public String getId() {
         return id;
@@ -81,5 +118,21 @@ public class User implements Serializable {
 
     public void setLastVisit(LocalDateTime lastVisit) {
         this.lastVisit = lastVisit;
+    }
+
+    public Set<User> getSubscriptions() {
+        return subscriptions;
+    }
+
+    public void setSubscriptions(Set<User> subscriptions) {
+        this.subscriptions = subscriptions;
+    }
+
+    public Set<User> getSubscribers() {
+        return subscribers;
+    }
+
+    public void setSubscribers(Set<User> subscribers) {
+        this.subscribers = subscribers;
     }
 }
