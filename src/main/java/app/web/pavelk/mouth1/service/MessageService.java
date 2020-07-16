@@ -2,12 +2,14 @@ package app.web.pavelk.mouth1.service;
 
 import app.web.pavelk.mouth1.domain.Message;
 import app.web.pavelk.mouth1.domain.User;
+import app.web.pavelk.mouth1.domain.UserSubscription;
 import app.web.pavelk.mouth1.domain.Views;
 import app.web.pavelk.mouth1.dto.EventType;
 import app.web.pavelk.mouth1.dto.MessagePageDto;
 import app.web.pavelk.mouth1.dto.MetaDto;
 import app.web.pavelk.mouth1.dto.ObjectType;
 import app.web.pavelk.mouth1.repo.MessageRepo;
+import app.web.pavelk.mouth1.repo.UserSubscriptionRepo;
 import app.web.pavelk.mouth1.util.WsSender;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -22,9 +24,11 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class MessageService {
@@ -37,12 +41,14 @@ public class MessageService {
 
     private MessageRepo messageRepo;
     private final BiConsumer<EventType, Message> wsSender;
+    private UserSubscriptionRepo userSubscriptionRepo;
 
 
     @Autowired
-    public MessageService(MessageRepo messageRepo, WsSender wsSender) {
+    public MessageService(MessageRepo messageRepo, WsSender wsSender, UserSubscriptionRepo userSubscriptionRepo) {
         this.messageRepo = messageRepo;
         this.wsSender = wsSender.getSender(ObjectType.MESSAGE, Views.IdName.class); //Views.IdName.class ограничим
+        this.userSubscriptionRepo = userSubscriptionRepo;
     }
 
 
@@ -126,8 +132,17 @@ public class MessageService {
     }
 
 
-    public MessagePageDto findAll(Pageable pageable) {
-        Page<Message> page = messageRepo.findAll(pageable);
+    public MessagePageDto findForUser(Pageable pageable, User user) {
+        List<User> channels = userSubscriptionRepo
+                .findBySubscriber(user)
+                .stream()
+                .map(UserSubscription::getChannel)
+                .collect(Collectors.toList());
+
+        channels.add(user); // в каналы добавить и свой канал чтобы сделать запрос в базу
+
+        Page<Message> page = messageRepo.findByAuthorIn(channels, pageable);
+
         return new MessagePageDto(
                 page.getContent(),
                 pageable.getPageNumber(),

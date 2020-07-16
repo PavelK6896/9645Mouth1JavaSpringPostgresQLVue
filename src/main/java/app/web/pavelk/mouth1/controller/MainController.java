@@ -53,12 +53,17 @@ public class MainController {
         if (user != null) { // проверка на авторизацию типо
             //model.addAttribute("profile", user); // получаем авторизованого пользователя
             User userFromDb = userDetailsRepo.findById(user.getId()).get(); // точьно получаем авторизованого пользователя
+
+
             String serializedProfile = profileWriter.writeValueAsString(userFromDb); // сереализуем его
+            System.out.println(serializedProfile + " sdsddds");
             model.addAttribute("profile", serializedProfile); // получаем авторизованого пользователя
 
+
             Sort sort = Sort.by(Sort.Direction.DESC, "id"); // сортировка
-            PageRequest pageRequest = PageRequest.of(0, MessageController.MESSAGES_PER_PAGE, sort);
-            MessagePageDto messagePageDto = messageService.findAll(pageRequest);
+            PageRequest pageRequest = PageRequest.of(0, MessageController.MESSAGES_PER_PAGE, sort); // создаем pageable
+
+            MessagePageDto messagePageDto = messageService.findForUser(pageRequest, user);
 
 
             String messages = messageWriter.writeValueAsString(messagePageDto.getMessages());

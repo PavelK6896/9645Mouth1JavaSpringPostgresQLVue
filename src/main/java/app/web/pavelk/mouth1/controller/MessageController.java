@@ -31,9 +31,10 @@ public class MessageController {
     @GetMapping // json
     @JsonView(Views.FullMessage.class) // интерфейс для сортировки вывода
     public MessagePageDto list(
+            @AuthenticationPrincipal User user,
             @PageableDefault(size = MESSAGES_PER_PAGE, sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        return messageService.findAll(pageable);
+        return messageService.findForUser(pageable, user);
     }
 
     @GetMapping("{id}")// json one

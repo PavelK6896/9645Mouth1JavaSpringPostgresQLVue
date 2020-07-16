@@ -48,7 +48,7 @@
             isISubscribed() {
                 return this.profile.subscribers && // есть ли подписки
                     this.profile.subscribers.find(subscription => { // если уже подписан
-                        return subscription.id === this.$store.state.profile.id
+                        return subscription.subscriber === this.$store.state.profile.id
                     })
             }
         },
