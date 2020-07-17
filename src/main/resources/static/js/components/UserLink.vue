@@ -1,6 +1,6 @@
 <template>
     <router-link
-            :to="`/user/${user.id}`"
+            :to="`/profile/${user.id}`"
             class="px-3"
     >
         <v-avatar
@@ -12,7 +12,6 @@
                     :alt="user.name"
             >
         </v-avatar>
-
         <v-avatar
                 v-else
                 :size="`${size || 36}px`"
@@ -33,7 +32,6 @@
                 return this.user ? this.user.name : 'unknown'
             }
         },
-
     }
 </script>
 

@@ -89,12 +89,14 @@ export default new Vuex.Store({
             state.currentPage = currentPage
         }
 
-
     },
     actions: {
         async addMessageAction({commit, state}, message) {
+
             const result = await messagesApi.add(message)// получаем с сервера
-            const data = await result.json() // преобразум в json
+            const data = await result.json()
+            console.log("data store.js " , data )
+
             const index = state.messages.findIndex(item => item.id === data.id) // ищем в jsone по id
 
             if (index > -1) {
@@ -127,6 +129,7 @@ export default new Vuex.Store({
             commit('addMessagePageMutation', data.messages)
             commit('updateTotalPagesMutation', data.totalPages)
             commit('updateCurrentPageMutation', Math.min(data.currentPage, data.totalPages - 1)) // запрашиваем минимум
+
         }
 
     }

@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table
@@ -18,7 +19,7 @@ import javax.persistence.*;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
 )
-public class Comment {
+public class Comment implements Serializable {
     @Id
     @GeneratedValue
     @JsonView(Views.IdName.class)

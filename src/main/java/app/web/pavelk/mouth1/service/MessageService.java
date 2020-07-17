@@ -15,7 +15,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -103,23 +102,21 @@ public class MessageService {
 
     public Message update(Long id, Message message) throws IOException {
         Message messageFromDb = messageRepo.getOne(id);
-
-        System.out.println(messageFromDb + "no");
-        BeanUtils.copyProperties(message, messageFromDb, "id");// копирует из message в messageFromDb все поля кроме id
-        fillMeta(message);
-        System.out.println(messageFromDb + "no");
+        // копирует из message в messageFromDb все поля кроме id
+        // BeanUtils.copyProperties(message, messageFromDb, "id");
+        messageFromDb.setText(message.getText());
+        fillMeta(messageFromDb);
         Message updatedMessage = messageRepo.save(messageFromDb);
-
         wsSender.accept(EventType.UPDATE, updatedMessage);
         return updatedMessage;
     }
 
     public Message create(Message message, User user) throws IOException {
         message.setCreationDate(LocalDateTime.now());
-        fillMeta(message);
+        fillMeta(message); // регекс на сылку
         message.setAuthor(user);// устанавливаем автора
         Message updatedMessage = messageRepo.save(message);
-        wsSender.accept(EventType.CREATE, updatedMessage); //web socket working
+        wsSender.accept(EventType.CREATE, updatedMessage);       // принимать отпровляет ответ
         return updatedMessage;
     }
 
@@ -136,6 +133,7 @@ public class MessageService {
         List<User> channels = userSubscriptionRepo
                 .findBySubscriber(user)
                 .stream()
+                .filter(UserSubscription::isActive) // только активные
                 .map(UserSubscription::getChannel)
                 .collect(Collectors.toList());
 

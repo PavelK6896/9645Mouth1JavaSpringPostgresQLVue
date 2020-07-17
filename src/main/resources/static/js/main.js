@@ -6,7 +6,7 @@ import 'api/resource'
 import router from 'router/router'
 import store from 'store/store'
 import App from 'pages/App.vue'
-import {connect} from './util/ws'
+import {connect} from 'util/ws'
 
 if (frontendData.profile) { // если авторизован
     connect()

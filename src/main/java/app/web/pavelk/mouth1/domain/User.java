@@ -1,6 +1,7 @@
 package app.web.pavelk.mouth1.domain;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -20,8 +21,11 @@ public class User implements Serializable {
     @Id
     @JsonView(Views.IdName.class)
     private String id;
+    //----------
+
     @JsonView(Views.IdName.class)
     private String name;
+
     @JsonView(Views.IdName.class)
     private String userpic;
     private String email;
@@ -40,7 +44,6 @@ public class User implements Serializable {
             orphanRemoval = true // удаляеться если нету
     )
     private Set<UserSubscription> subscriptions = new HashSet<>();
-
 
     @JsonView(Views.FullProfile.class)
     @OneToMany(

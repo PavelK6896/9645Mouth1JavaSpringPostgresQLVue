@@ -42,6 +42,8 @@ public class WsSender {
                     "/topic/activity",
                     new WsEventDto(objectType, eventType, value)
             );
+
+            System.out.println("WsSender = " + value);
         };
     }
 

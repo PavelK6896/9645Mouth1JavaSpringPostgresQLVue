@@ -28,12 +28,17 @@ public class MessageController {
     }
 
 
-    @GetMapping // json
+    @GetMapping
     @JsonView(Views.FullMessage.class) // интерфейс для сортировки вывода
     public MessagePageDto list(
             @AuthenticationPrincipal User user,
-            @PageableDefault(size = MESSAGES_PER_PAGE, sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
+            @PageableDefault(
+                    size = MESSAGES_PER_PAGE, sort = {"id"},
+                    direction = Sort.Direction.DESC
+            ) Pageable pageable
     ) {
+
+        System.out.println(" message GetMapping");
         return messageService.findForUser(pageable, user);
     }
 
@@ -43,33 +48,32 @@ public class MessageController {
         return messageService.getOne(id);
     }
 
-
     @PostMapping
+    @JsonView(Views.FullMessage.class)
     public Message create(
             @RequestBody Message message,
             @AuthenticationPrincipal User user // в сообщение устанавливаем автора
     ) throws IOException {
-        return messageService.create(message, user);
+        Message message1 = messageService.create(message, user);
+        System.out.println(" message PostMapping " + message1);
+        return message1;
     }
 
     @PutMapping("{id}")
+    @JsonView(Views.FullMessage.class)
     public Message update(
             @PathVariable("id") Long id, // вытягивает из урла текущий
             @RequestBody Message message) throws IOException {//RequestBody полученые даные в пост
-        return messageService.update(id, message);
+        System.out.println(id + " message PutMapping " + message);
+        Message message1 = messageService.update(id, message);
+        System.out.println("message PutMapping " + message);
+        return message1;
     }
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable Long id) {
+        System.out.println("message DeleteMapping");
         messageService.delete(id);
     }
-
-
-    /////////////////////////////////////////////
-//    @MessageMapping("/changeMessage") // для веб сокета
-//    @SendTo("/topic/activity")// месачь брокер (возможно ребит мку, актив мку)
-//    public Message message(Message message) {
-//        return messageRepo.save(message); // презапишет и положит на очередь
-//    }
 
 }

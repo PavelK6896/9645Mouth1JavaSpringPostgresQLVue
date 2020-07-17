@@ -1,42 +1,25 @@
 <template>
     <v-app>
-
         <v-app-bar app>
             <v-toolbar-title>Mouth</v-toolbar-title>
             <v-btn v-if="profile" text :disabled="$route.path === '/'" @click="showMessages">
                 Messages
             </v-btn>
-
             <v-spacer></v-spacer>
-
-            <v-btn text v-if="profile" :disabled="$route.path === '/user'" @click="showProfile">{{profile.name}}</v-btn>
-
-
+            <v-btn text v-if="profile" :disabled="$route.path === '/profile'" @click="showProfile">
+                {{profile.name}}</v-btn>
             <v-btn v-if="profile" icon href="/logout">
-
                 <v-icon>exit_to_app</v-icon>
             </v-btn>
         </v-app-bar>
-
         <v-main>
             <router-view></router-view>
-            <!--            <v-container v-if="!profile">-->
-            <!--                Необходимо авторизоваться через-->
-            <!--                <a href="/login">Google</a>-->
-            <!--            </v-container>-->
-
-            <!--            <v-container v-if="profile">-->
-            <!--                <messages-list />-->
-            <!--            </v-container>-->
         </v-main>
-
-
     </v-app>
 </template>
 
 <script>
     import {mapMutations, mapState} from 'vuex' // состояние гетер мутация действие
-    // import MessagesList from 'components/messages/MessageList.vue'
     import {addHandler} from 'util/ws'
 
 
@@ -57,28 +40,25 @@
                 this.$router.push('/')
             },
             showProfile() {
-                this.$router.push('/user')
+                this.$router.push('/profile')
             }
 
 
-        },   // обычьные мутации
+        },
 
-
-        // data() { // функция чтобы на каждый экземпляр был свои даные
-        //     return {
-        //         messages: frontendData.messages,
-        //         profile: frontendData.profile
-        //     }
-        // },
         created() { // хук после инициализаци обьектов
+
             addHandler(data => {
+
+                    console.log("addHandler app.vue", data)
+
                     if (data.objectType === 'MESSAGE') {
-                        // const index = this.messages.findIndex(item => item.id === data.body.id)
 
                         switch (data.eventType) {
                             case 'CREATE':
+                                console.log("MESSAGE 1111111111 app.vue")
                                 this.addMessageMutation(data.body)
-
+                                console.log("MESSAGE 222222222 app.vue")
                                 break
                             case 'UPDATE':
                                 this.updateMessageMutation(data.body)
@@ -94,6 +74,8 @@
                         switch (data.eventType) {
                             case 'CREATE':
                                 this.addCommentMutation(data.body)
+                                console.log("COMMENT CREATE app.vue")
+
                                 break
                             default:
                                 console.error(`Looks like the event type if unknown "${data.eventType}"`)
@@ -102,16 +84,6 @@
                         console.error(`Looks like the object type if unknown "${data.objectType}"`)
                     }
                 }
-
-                // {
-                //     let index = getIndex(this.messages, data.id) // ищем сообщение
-                //     if (index > -1) {
-                //         this.messages.splice(index, 1, data) // заменяем старое сообщение
-                //     } else { // когда поевляеться новое сообщение
-                //         this.messages.push(data)
-                //     }
-                // }
-
             )
         },
         beforeMount() { // хук после копиляции html

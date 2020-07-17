@@ -20,7 +20,9 @@ import java.io.Serializable;
 public class UserSubscription implements Serializable {
     @EmbeddedId // сложно составной ключь для сущьности
     @JsonIgnore
+    @JsonView(Views.Id.class)
     private UserSubscriptionId id;
+    //---------------
 
     @MapsId("channelId")
     @ManyToOne

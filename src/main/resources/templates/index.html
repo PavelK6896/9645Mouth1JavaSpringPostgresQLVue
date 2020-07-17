@@ -17,18 +17,10 @@
 
     <title>Document</title>
 
-<!--    &lt;!&ndash;    говарим тамлиф что сдесь генерировал жава скрипт по месту &ndash;&gt;-->
-<!--    <script th:inline="javascript">-->
-<!--        //с бекенда принимаем переменную серелизуеться в дсон и подставляеться на странице-->
-<!--        var frontendData = [[${frontendData}]];-->
-<!--        var messages = [# th:utext = "${messages}" /        ]        ; // utext - текст не экранировать-->
-<!--        var profile = [# th:utext = "${profile}" /        ]        ; // utext - текст не экранировать-->
-<!--    </script>-->
-
-
     <script th:inline="javascript">
         var frontendData = [[${frontendData}]];
         var messages = [# th:utext="${messages}" /];
+        console.log("messages index.html", messages)
         var profile = [# th:utext="${profile}" /];
     </script>
 

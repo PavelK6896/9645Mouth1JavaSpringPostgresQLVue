@@ -27,7 +27,6 @@ public class MainController {
     private final MessageService messageService;
     private final UserDetailsRepo userDetailsRepo;
 
-
     @Value("${spring.profiles.active}")
     private String profile;
     private final ObjectWriter messageWriter;
@@ -78,11 +77,11 @@ public class MainController {
 
         }
 
-
         model.addAttribute("frontendData", data);
         // в зависимости от файла с настройками
         model.addAttribute("isDevMode", "dev".equals(profile));
 
         return "index";
     }
+
 }

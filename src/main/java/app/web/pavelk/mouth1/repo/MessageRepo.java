@@ -13,12 +13,7 @@ import java.util.List;
 
 public interface MessageRepo extends JpaRepository<Message, Long> { // наследуем методы работы с базой
 
-//    @EntityGraph(attributePaths = {"comments"})
-//        // возвращает превязанные сущьности одним запросом
-//    Page<Message> findAll(Pageable pageable);
-
-    @EntityGraph(attributePaths = { "comments" })
+    @EntityGraph(attributePaths = {"comments"})
     Page<Message> findByAuthorIn(List<User> users, Pageable pageable); // только те из переданного списка
-
 
 }
