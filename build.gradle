@@ -49,6 +49,9 @@ dependencies {
     implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '3.0.0-M4'
 
 
+    compile 'io.sentry:sentry-spring:1.7.30'
+
+
 //
 //    compile('com.sun.xml.bind:jaxb-core')
 //    compile('com.sun.xml.bind:jaxb-impl')

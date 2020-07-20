@@ -11,6 +11,7 @@ import app.web.pavelk.mouth1.dto.ObjectType;
 import app.web.pavelk.mouth1.repo.MessageRepo;
 import app.web.pavelk.mouth1.repo.UserSubscriptionRepo;
 import app.web.pavelk.mouth1.util.WsSender;
+import io.sentry.Sentry;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -46,7 +47,7 @@ public class MessageService {
     @Autowired
     public MessageService(MessageRepo messageRepo, WsSender wsSender, UserSubscriptionRepo userSubscriptionRepo) {
         this.messageRepo = messageRepo;
-        this.wsSender = wsSender.getSender(ObjectType.MESSAGE, Views.IdName.class); //Views.IdName.class ограничим
+        this.wsSender = wsSender.getSender(ObjectType.MESSAGE, Views.FullMessage.class); //Views.IdName.class ограничим
         this.userSubscriptionRepo = userSubscriptionRepo;
     }
 
@@ -101,6 +102,7 @@ public class MessageService {
     }
 
     public Message update(Long id, Message message) throws IOException {
+      //  Sentry.capture("update m");
         Message messageFromDb = messageRepo.getOne(id);
         // копирует из message в messageFromDb все поля кроме id
         // BeanUtils.copyProperties(message, messageFromDb, "id");
@@ -108,6 +110,7 @@ public class MessageService {
         fillMeta(messageFromDb);
         Message updatedMessage = messageRepo.save(messageFromDb);
         wsSender.accept(EventType.UPDATE, updatedMessage);
+       // throw new RuntimeException("j bang!");
         return updatedMessage;
     }
 

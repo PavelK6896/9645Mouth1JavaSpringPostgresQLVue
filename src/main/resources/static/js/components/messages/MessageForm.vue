@@ -15,6 +15,7 @@
 <script>
     // import messagesApi from 'api/messages'
     import {mapActions} from 'vuex' // все акшены из стора
+  //  import * as Sentry from '@sentry/browser';
 
     // function getIndex(list, id) {
     //     for (var i = 0; i < list.length; i++ ) {
@@ -31,7 +32,7 @@
         data() {
             return {
                 text: '',
-                id: ''
+                id: null
             }
         },
         watch: {
@@ -45,6 +46,7 @@
             ...mapActions(['addMessageAction', 'updateMessageAction']), // добовляем в методы компанента
             save() {
                 //   sendMessage({id: this.id, text: this.text}) // выполняем ws функцию
+             //   Sentry.captureMessage('Start save ', );
 
                 const message = {
                     id: this.id,
@@ -59,9 +61,9 @@
 
 
                 this.text = ''
-                this.id = ''
+                this.id = null
 
-
+               // throw new Error('bang!')
                 // const message = { text: this.text }
                 //
                 // if (this.id) {

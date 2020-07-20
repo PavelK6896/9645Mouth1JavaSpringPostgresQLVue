@@ -61,7 +61,6 @@ public class MainController {
 
             Sort sort = Sort.by(Sort.Direction.DESC, "id"); // сортировка
             PageRequest pageRequest = PageRequest.of(0, MessageController.MESSAGES_PER_PAGE, sort); // создаем pageable
-
             MessagePageDto messagePageDto = messageService.findForUser(pageRequest, user);
 
 
