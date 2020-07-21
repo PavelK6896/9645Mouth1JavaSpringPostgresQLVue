@@ -13,4 +13,5 @@ public interface UserDetailsRepo extends JpaRepository<User, String> { // Под
         // eager жадная загрузка
     Optional<User> findById(String s);
 
+
 }

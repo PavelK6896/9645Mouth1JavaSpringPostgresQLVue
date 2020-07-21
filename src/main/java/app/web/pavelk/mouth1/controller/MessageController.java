@@ -5,33 +5,34 @@ import app.web.pavelk.mouth1.domain.User;
 import app.web.pavelk.mouth1.domain.Views;
 import app.web.pavelk.mouth1.dto.MessagePageDto;
 import app.web.pavelk.mouth1.service.MessageService;
+import app.web.pavelk.mouth1.service.ProfileService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.security.Principal;
 
 @RestController//json controller xml
 @RequestMapping("message")
 public class MessageController {
     public static final int MESSAGES_PER_PAGE = 3;
-
     private final MessageService messageService;
+    private final ProfileService profileService;
 
     @Autowired
-    public MessageController(MessageService messageService) {
+    public MessageController(MessageService messageService, ProfileService profileService) {
         this.messageService = messageService;
+        this.profileService = profileService;
     }
-
 
     @GetMapping
     @JsonView(Views.FullMessage.class) // интерфейс для сортировки вывода
     public MessagePageDto list(
-            @AuthenticationPrincipal User user,
+            Principal principal,
             @PageableDefault(
                     size = MESSAGES_PER_PAGE, sort = {"id"},
                     direction = Sort.Direction.DESC
@@ -39,7 +40,13 @@ public class MessageController {
     ) {
 
         System.out.println(" message GetMapping");
-        return messageService.findForUser(pageable, user);
+        //  User userFromDb = profileService.getOne(principal.getName()).get();
+        User userFromDb = profileService.getUserU();
+        if (principal.getName().equals(userFromDb.getId())) {
+            System.out.println("UserU oK!");
+        } else System.out.println("Error UserU!");
+
+        return messageService.findForUser(pageable, userFromDb);
     }
 
     @GetMapping("{id}")// json one
@@ -52,9 +59,16 @@ public class MessageController {
     @JsonView(Views.FullMessage.class)
     public Message create(
             @RequestBody Message message,
-            @AuthenticationPrincipal User user // в сообщение устанавливаем автора
+            Principal principal // в сообщение устанавливаем автора
     ) throws IOException {
-        Message message1 = messageService.create(message, user);
+
+        User userFromDb = profileService.getUserU();
+
+        if (principal.getName().equals(userFromDb.getId())) {
+            System.out.println("UserU oK!");
+        } else System.out.println("Error UserU!");
+
+        Message message1 = messageService.create(message, userFromDb);
         System.out.println(" message PostMapping " + message1);
         return message1;
     }
@@ -67,6 +81,7 @@ public class MessageController {
         System.out.println(id + " message PutMapping " + message);
         Message message1 = messageService.update(id, message);
         System.out.println("message PutMapping " + message);
+
         return message1;
     }
 

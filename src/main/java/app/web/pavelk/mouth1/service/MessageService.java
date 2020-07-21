@@ -11,7 +11,6 @@ import app.web.pavelk.mouth1.dto.ObjectType;
 import app.web.pavelk.mouth1.repo.MessageRepo;
 import app.web.pavelk.mouth1.repo.UserSubscriptionRepo;
 import app.web.pavelk.mouth1.util.WsSender;
-import io.sentry.Sentry;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -102,7 +101,7 @@ public class MessageService {
     }
 
     public Message update(Long id, Message message) throws IOException {
-      //  Sentry.capture("update m");
+        //  Sentry.capture("update m");
         Message messageFromDb = messageRepo.getOne(id);
         // копирует из message в messageFromDb все поля кроме id
         // BeanUtils.copyProperties(message, messageFromDb, "id");
@@ -110,7 +109,7 @@ public class MessageService {
         fillMeta(messageFromDb);
         Message updatedMessage = messageRepo.save(messageFromDb);
         wsSender.accept(EventType.UPDATE, updatedMessage);
-       // throw new RuntimeException("j bang!");
+        // throw new RuntimeException("j bang!");
         return updatedMessage;
     }
 

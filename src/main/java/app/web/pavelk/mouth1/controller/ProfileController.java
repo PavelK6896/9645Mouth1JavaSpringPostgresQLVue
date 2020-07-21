@@ -6,9 +6,9 @@ import app.web.pavelk.mouth1.domain.Views;
 import app.web.pavelk.mouth1.service.ProfileService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,15 +31,20 @@ public class ProfileController {
     @PostMapping("change-subscription/{channelId}")
     @JsonView(Views.FullProfile.class)
     public User changeSubscription(
-            @AuthenticationPrincipal User subscriber,
+            Principal principal,
             @PathVariable("channelId") String channelId
     ) {
-        User channel = profileService.getOne(channelId).get();
 
-        if (subscriber.equals(channel)) { // если сам на себя
+        User channel = profileService.getOne(channelId).get();
+        User userFromDb = profileService.getUserU();
+        if (principal.getName().equals(userFromDb.getId())) {
+            System.out.println("UserU oK!");
+        } else System.out.println("Error UserU!");
+
+        if (principal.equals(channel)) { // если сам на себя
             return channel;
         } else {
-            return profileService.changeSubscription(channel, subscriber);
+            return profileService.changeSubscription(channel, userFromDb);
         }
     }
 
@@ -54,9 +59,10 @@ public class ProfileController {
     @PostMapping("change-status/{subscriberId}")
     @JsonView(Views.IdName.class)
     public UserSubscription changeSubscriptionStatus(
-            @AuthenticationPrincipal User channel,
+            Principal principal,
             @PathVariable("subscriberId") String stringId
     ) {
+        User channel = profileService.getOne(principal.getName()).get();
         return profileService.changeSubscriptionStatus(channel, stringId);
     }
 }

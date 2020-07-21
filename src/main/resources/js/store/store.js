@@ -106,11 +106,15 @@ export default new Vuex.Store({
             }
         },
         async updateMessageAction({commit}, message) {
+            console.log("updateMessageAction store.js " , message )
+
             const result = await messagesApi.update(message)
             const data = await result.json()
             commit('updateMessageMutation', data)
         },
         async removeMessageAction({commit}, message) {
+            console.log("removeMessageAction store.js " , message )
+
             const result = await messagesApi.remove(message.id) // запрос на сервер
 
             if (result.ok) { // промис вернул ок
@@ -118,11 +122,15 @@ export default new Vuex.Store({
             }
         },
         async addCommentAction({commit, state}, comment) {
+            console.log("addCommentAction store.js " , comment )
+
             const response = await commentApi.add(comment) // отпровляем на сервер по апи
             const data = await response.json()
             commit('addCommentMutation', data)
         },
         async loadPageAction({commit, state}) {
+            console.log("loadPageAction store.js " , state.currentPage )
+
             const response = await messagesApi.page(state.currentPage + 1)
             const data = await response.json()
 

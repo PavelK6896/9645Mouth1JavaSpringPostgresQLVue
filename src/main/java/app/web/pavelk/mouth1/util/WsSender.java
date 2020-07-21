@@ -43,7 +43,7 @@ public class WsSender {
                     new WsEventDto(objectType, eventType, value)
             );
 
-            System.out.println("WsSender = " + value);
+            //  System.out.println("WsSender = " + value);
         };
     }
 

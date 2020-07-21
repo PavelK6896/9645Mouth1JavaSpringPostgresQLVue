@@ -2,19 +2,9 @@ const path = require('path'); // получаем утилиту для путе
 const VueLoaderPlugin = require('vue-loader/lib/plugin'); // для компанентов
 
 module.exports = {
-    mode: 'development', // разработка
-    devtool: 'source-map', // без заморочек
-    entry: path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'main.js'), // начало сборки проекта
-    devServer: {
-        contentBase: './dist', // деректория скомпилированных файлов
-        compress: true,
-        port: 8000, // порт работы
-        allowedHosts: [
-            'localhost:8080' // порт приема запросов
-        ],
-        stats: 'errors-only', // видеть логи только по статусу
-        clientLogLevel: 'error', //
-    },
+
+    entry: path.join(__dirname, 'src', 'main', 'resources',  'js', 'main.js'), // начало сборки проекта
+
     module: {
         rules: [
             { // 1 первое правило все js через bable
@@ -72,7 +62,7 @@ module.exports = {
     ],
     resolve: { // модули
         modules: [
-            path.join(__dirname, 'src', 'main', 'resources', 'static', 'js'),
+            path.join(__dirname, 'src', 'main', 'resources',  'js'),
             path.join(__dirname, 'node_modules'),
         ],
     }

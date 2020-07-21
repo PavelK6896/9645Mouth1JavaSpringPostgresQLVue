@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import vuetify from 'plugins/vuetify'
+import vuetify from './plugins/vuetify1' // path to vuetify export путь к экспорту vuetify
 import '@babel/polyfill'
 import 'api/resource'
 import router from 'router/router'
@@ -10,13 +10,13 @@ import {connect} from 'util/ws'
 import * as Sentry from '@sentry/browser';
 import { Vue as VueIntegration } from '@sentry/integrations';
 
-try {
-    Sentry.init({
-        dsn: 'https://30',
-        integrations: [new VueIntegration({Vue, attachProps: true})],
-    });
-    Sentry.setUser({id: profile && profile.id, username: profile && profile.username}); //&& - проверка что существует
-}catch (e) {}
+// try {
+//     Sentry.init({
+//         dsn: 'htt',
+//         integrations: [new VueIntegration({Vue, attachProps: true})],
+//     });
+//     Sentry.setUser({id: profile && profile.id, username: profile && profile.username}); //&& - проверка что существует
+// }catch (e) {}
 
 if (profile) { // если авторизован
     connect()

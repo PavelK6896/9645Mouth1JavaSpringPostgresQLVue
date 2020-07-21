@@ -9,12 +9,13 @@
         name: 'LazyLoader',
         methods: mapActions(['loadPageAction']), // 2 импортируем
         mounted() { // навешиваем лисанар
+            console.log("mounted")
             window.onscroll = () => {
                 const el = document.documentElement
                 // window.innerHeight -ширина экрана
                 // el.scrollTop насколько прокручен элемент
                 // el.offsetHeight - общая высота документа
-                const isBottomOfScreen = el.scrollTop + window.innerHeight === el.offsetHeight
+                const isBottomOfScreen = el.scrollTop + window.innerHeight + 500 >= el.offsetHeight
 
                 if (isBottomOfScreen) {
                     this.loadPageAction() // 3 вызываем

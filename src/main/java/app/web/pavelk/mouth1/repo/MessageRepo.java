@@ -3,17 +3,11 @@ package app.web.pavelk.mouth1.repo;
 
 import app.web.pavelk.mouth1.domain.Message;
 import app.web.pavelk.mouth1.domain.User;
-import org.springframework.boot.convert.Delimiter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.QueryHints;
 
-import javax.persistence.EntityListeners;
-import javax.persistence.EntityResult;
-import javax.persistence.QueryHint;
 import java.util.List;
 
 
