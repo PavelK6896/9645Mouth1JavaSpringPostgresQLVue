@@ -21,11 +21,12 @@ public class CustomOidcUserService extends OidcUserService { // для полу�
     @Override
     public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {
         OidcUser oidcUser = super.loadUser(userRequest);
+        System.out.println(userRequest.getAdditionalParameters());
+
         try {
 
             System.out.println("CustomOidcUserService");
             return profileService.processOidcUser(userRequest, oidcUser);
-
 
         } catch (Exception ex) {
             throw new InternalAuthenticationServiceException(ex.getMessage(), ex.getCause());

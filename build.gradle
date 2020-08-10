@@ -34,76 +34,46 @@ repositories {
 node {
 //    version = '0.12.18'
 //    distBaseUrl = 'https://nodejs.org/dist'
-
-
     download = true
 }
 
 dependencies {
 
-    // https://mvnrepository.com/artifact/org.jsoup/jsoup
+    // jsoup красиво грузит mini html сылка
     compile group: 'org.jsoup', name: 'jsoup', version: '1.13.1'
 
-
+    //web
     implementation 'org.springframework.boot:spring-boot-starter-web'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
+    //thymeleaf
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
     //для сохранения сесии // сереализует классы и ложит их в базу
- //   implementation 'org.springframework.session:spring-session-jdbc'
+    //   implementation 'org.springframework.session:spring-session-jdbc'
 
-
-    // для асинхроного общения
+    // websocket для асинхроного общения
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
-    // https://mvnrepository.com/artifact/org.springframework.security/spring-security-config
+    //security
     compile group: 'org.springframework.security', name: 'spring-security-config', version: '5.3.3.RELEASE'
-// https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-jose
     compile group: 'org.springframework.security', name: 'spring-security-oauth2-jose', version: '5.3.3.RELEASE'
-// https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-client
     compile group: 'org.springframework.security', name: 'spring-security-oauth2-client', version: '5.3.3.RELEASE'
-
-  //  import org.springframework.boot.autoconfigure.security.oauth2.resource.PrincipalExtractor;
-
-    //секюрити и что еще
-//    implementation 'org.springframework.boot:spring-boot-starter-security'
-//    // спринг секюрити как отдельный проект
-//
-//    //implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.3.1.RELEASE'
-//
-//// https://mvnrepository.com/artifact/org.springframework.security.oauth/spring-security-oauth2
-//    compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.5.0.RELEASE'
-//
-//    // https://mvnrepository.com/artifact/org.springframework.security.oauth.boot/spring-security-oauth2-autoconfigure
-//    compile group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: '2.3.1.RELEASE'
-
-    // https://mvnrepository.com/artifact/org.springframework.security.oauth.boot/spring-security-oauth2-autoconfigure
     compile group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: '2.3.1.RELEASE'
 
-
-
+    //postgresql
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.postgresql:postgresql'
-    //implementation 'org.projectlombok:lombok'
-  //  implementation 'javax.xml.bind:jaxb-api'
 
-    // https://mvnrepository.com/artifact/com.sun.xml.bind/jaxb-impl
+    //xml
     implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '3.0.0-M4'
 
-
+    //log
     compile 'io.sentry:sentry-spring:1.7.30'
 
-
-//
-//    compile('com.sun.xml.bind:jaxb-core')
-//    compile('com.sun.xml.bind:jaxb-impl')
-//
-
-
+    //lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-
 
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

@@ -10,7 +10,7 @@ import {connect} from 'util/ws'
 import * as Sentry from '@sentry/browser';
 import { Vue as VueIntegration } from '@sentry/integrations';
 
-// try {
+// try { // log sentry service
 //     Sentry.init({
 //         dsn: 'htt',
 //         integrations: [new VueIntegration({Vue, attachProps: true})],

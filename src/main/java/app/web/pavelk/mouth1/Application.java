@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Application {
 
     public static void main(String[] args) {
-       // Sentry.capture("Application start");
+       // Sentry.capture("Application start"); //log
         SpringApplication.run(Application.class, args);
     }
 

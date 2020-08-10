@@ -21,7 +21,6 @@ public class User implements Serializable {
     @Id
     @JsonView(Views.IdName.class)
     private String id;
-    //----------
 
     @JsonView(Views.IdName.class)
     private String name;
@@ -36,7 +35,6 @@ public class User implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonView(Views.FullProfile.class)
     private LocalDateTime lastVisit;
-
 
     @JsonView(Views.FullProfile.class) // фильтрует выдачю поля
     @OneToMany(

@@ -38,8 +38,7 @@ public class WsSender {
                 throw new RuntimeException(e);
             }
 
-            template.convertAndSend(
-                    "/topic/activity",
+            template.convertAndSend("/topic/activity",
                     new WsEventDto(objectType, eventType, value)
             );
 

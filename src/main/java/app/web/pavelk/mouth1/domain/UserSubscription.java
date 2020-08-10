@@ -22,7 +22,6 @@ public class UserSubscription implements Serializable {
     @JsonIgnore
     @JsonView(Views.Id.class)
     private UserSubscriptionId id;
-    //---------------
 
     @MapsId("channelId")
     @ManyToOne

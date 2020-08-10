@@ -18,7 +18,7 @@ import java.util.List;
 @Data // актевировать
 public class Message {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)//генерировать ид автоматически
+    @GeneratedValue(strategy = GenerationType.AUTO)//генерировать ид автоматически  хиб выберет стартегию сам
     @JsonView(Views.Id.class) // для фильтра
     private Long id;
 
